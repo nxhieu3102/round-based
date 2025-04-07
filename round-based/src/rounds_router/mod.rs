@@ -134,7 +134,8 @@ where
                 None => return Err(errors::IoError::UnexpectedEof.into()),
             };
             let message_round_n = incoming.msg.round();
-
+            
+            debug!(parent: span, "received message for round {}", message_round_n);
             let message_round = match self.rounds.get_mut(&message_round_n) {
                 Some(Some(round)) => round,
                 Some(None) => {
