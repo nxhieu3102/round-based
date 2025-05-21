@@ -2,6 +2,8 @@
 
 use alloc::{vec, vec::Vec};
 use core::iter;
+use serde::{Deserialize, Serialize};
+
 
 use crate::{Incoming, MessageType, MsgId, PartyIndex};
 
@@ -53,7 +55,7 @@ pub struct RoundInput<M> {
 }
 
 /// List of received messages
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct RoundMsgs<M> {
     i: PartyIndex,
     ids: Vec<MsgId>,
@@ -166,6 +168,15 @@ where
 }
 
 impl<M> RoundMsgs<M> {
+    /// Constructs a new `RoundMsgs` from a list of messages
+    ///
+    /// This function takes a party index `i`, a list of message IDs `ids`, and a list of messages `messages`.
+    /// It returns a new `RoundMsgs` struct with the given parameters.
+    
+    pub fn new(i: PartyIndex, ids: Vec<MsgId>, messages: Vec<M>) -> Self {
+        Self { i, ids, messages }
+    }
+
     /// Returns vec of `n-1` received messages
     ///
     /// Messages appear in the list in ascending order of sender index. E.g. for n=4 and local party index i=2,

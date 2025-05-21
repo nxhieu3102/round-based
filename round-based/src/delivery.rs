@@ -1,5 +1,5 @@
 use futures_util::{Sink, Stream};
-
+use serde::{Deserialize, Serialize};
 /// Networking abstraction
 ///
 /// Basically, it's pair of channels: [`Stream`] for receiving messages, and [`Sink`] for sending
@@ -116,7 +116,7 @@ impl<M> Incoming<M> {
 }
 
 /// Outgoing message
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct Outgoing<M> {
     /// Message destination: either one party (p2p message) or all parties (broadcast message)
     pub recipient: MessageDestination,
@@ -172,7 +172,7 @@ impl<M> Outgoing<M> {
 }
 
 /// Destination of an outgoing message
-#[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[derive(Debug, Copy, Clone, Eq, PartialEq, Serialize, Deserialize)]
 pub enum MessageDestination {
     /// Broadcast message
     AllParties,
